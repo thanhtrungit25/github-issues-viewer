@@ -1,17 +1,17 @@
-import React from "react";
-import { PropTypes } from "prop-types";
-import "./Issue.css";
+import React from "react"
+import PropTypes from "prop-types"
+import "./Issue.css"
 
 function shorten(text = "", length = 140) {
   // Normalize newlines
-  let cleanText = text.replace(/\\r\\n/g, "\n");
+  let cleanText = text.replace(/\\r\\n/g, "\n")
 
   // Return if short enough already
   if (cleanText.length <= length) {
-    return cleanText;
+    return cleanText
   }
 
-  return cleanText.substr(0, 140);
+  return cleanText.substr(0, 140)
 }
 
 export default function Issue({
@@ -36,21 +36,31 @@ export default function Issue({
         <p className="issue__summary">{shorten(summary)}</p>
         <div className="issue__labels">
           {labels.map(label => (
-            <span className="issue__label" key={label}>
-              {label}
+            <span
+              className="issue__label"
+              key={label.id}
+              style={{ borderColor: `#${label.color}` }}
+            >
+              {label.name}
             </span>
           ))}
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 Issue.propTypes = {
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  labels: PropTypes.arrayOf(PropTypes.string).isRequired,
+  labels: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      color: PropTypes.string
+    })
+  ).isRequired,
   username: PropTypes.string.isRequired,
   avatarUrl: PropTypes.string.isRequired,
   summary: PropTypes.string.isRequired
-};
+}

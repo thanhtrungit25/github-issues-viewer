@@ -1,8 +1,8 @@
-import React, { Component } from "react"
-import "./App.css"
+import React from "react"
+import renderer from "react-test-renderer"
 import IssueList from "./IssueList"
 
-const issues = [
+let issues = [
   {
     url: "https://api.github.com/repos/rails/rails/issues/27599",
     repository_url: "https://api.github.com/repos/rails/rails",
@@ -335,10 +335,13 @@ const issues = [
   }
 ]
 
-class App extends Component {
-  render() {
-    return <IssueList issues={issues} />
-  }
-}
+issues = issues.map(issue => ({
+  ...issue,
+  body: "something with no line breaks"
+}))
 
-export default App
+it("renders", () => {
+  const tree = renderer.create(<IssueList issues={issues} />).toJSON()
+
+  expect(tree).toMatchSnapshot()
+})
