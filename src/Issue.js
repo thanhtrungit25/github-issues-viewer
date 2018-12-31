@@ -1,4 +1,18 @@
 import React from "react";
+import { PropTypes } from "prop-types";
+import "./Issue.css";
+
+function shorten(text = "", length = 140) {
+  // Normalize newlines
+  let cleanText = text.replace(/\\r\\n/g, "\\n");
+
+  // Return if short enough already
+  if (cleanText.length <= length) {
+    return cleanText;
+  }
+
+  return cleanText.substr(0, 140);
+}
 
 export default function Issue({
   number,
@@ -12,14 +26,14 @@ export default function Issue({
     <div className="issue">
       <div className="issue_user">
         <img className="issue__user__avatar" src={avatarUrl} alt="" />
-        <div className="issue_user__name">{username}</div>
+        <div className="issue__user__name">{username}</div>
       </div>
       <div>
         <div>
           <span className="issue__number">#{number}</span>
           <span className="issue__title">{title}</span>
         </div>
-        <p className="issue__summary">{summary}</p>
+        <p className="issue__summary">{shorten(summary)}</p>
         <div className="issue__labels">
           {labels.map(label => (
             <span className="issue__label" key={label}>
@@ -32,4 +46,11 @@ export default function Issue({
   );
 }
 
-Issue.propTypes = {};
+Issue.propTypes = {
+  number: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  labels: PropTypes.arrayOf(PropTypes.string).isRequired,
+  username: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
+  summary: PropTypes.string.isRequired
+};
