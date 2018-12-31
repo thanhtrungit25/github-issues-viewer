@@ -4,7 +4,7 @@ import "./Issue.css";
 
 function shorten(text = "", length = 140) {
   // Normalize newlines
-  let cleanText = text.replace(/\\r\\n/g, "\\n");
+  let cleanText = text.replace(/\\r\\n/g, "\n");
 
   // Return if short enough already
   if (cleanText.length <= length) {
